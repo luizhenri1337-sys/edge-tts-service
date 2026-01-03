@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import edge_tts
 import uuid
@@ -21,4 +22,8 @@ async def tts(req: TTSRequest):
 
     await communicate.save(filename)
 
-    return {"status": "ok", "file": filename}
+    return FileResponse(
+        filename,
+        media_type="audio/mpeg",
+        filename="audio.mp3"
+    )
